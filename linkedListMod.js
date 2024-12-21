@@ -20,7 +20,7 @@ function Node(value = null, nextNode = null) {
 //Solution: pass node as the second parameter with the default set to this.listHead as needed
 //  This allows to only "at(index)" to be called
 
-//Idea: could wrap at(index) around another function that passes the node parameter, but that seems redundant and dumb, but maybe that's a standard practice?
+//Idea: could wrap at(index) around another function that passes an additional node parameter, but that seems redundant and dumb, but maybe that's a standard practice?
 
 //linked list maker
 export class LinkedList {
