@@ -1,4 +1,5 @@
 console.clear();
+
 // linkedListMod.js
 
 // ====================================== Major Functions ====================================== //
@@ -10,6 +11,14 @@ function Node(value = null, nextNode = null) {
     nextNode,
   };
 }
+
+//Issue: project asks for functions with one parameter (ex: "at(index) returns the node at the given index")
+//  but without a way to pass the node into the function, recursion won't work?
+
+//Solution: pass node as the second parameter but set the default to this.listHead (this.head is taken by function method "head()"")
+//  This allows to only "at(index)" to be called
+
+//Idea: could wrap at(index) around another function that passes the node parameter, but that seems redundant
 
 //linked list maker
 export class LinkedList {
@@ -60,10 +69,14 @@ export class LinkedList {
   at(index, node = this.listHead) {
     const maxIndex = this.size() - 1;
 
-    if (index > maxIndex) return "Index too large for list!";
-
-    if (index < 0) return "No negative indexes!";
+    //error handling
+    if (index > maxIndex || index < 0 || !Number.isInteger(index)) {
+      return `Must input number between 0 and ${maxIndex}`;
+    }
+    //base case
     if (index === 0) return node;
+
+    //starts at head and uses user index-input as the number of moves, landing on desired node
     return this.at(index - 1, node.nextNode);
   }
 
@@ -79,6 +92,16 @@ export class LinkedList {
     return this.contains(searchValue, node.nextNode);
   }
 
+  find(searchValue, index = 0) {
+    const maxIndex = this.size() - 1;
+
+    //error handling
+    if (index > maxIndex) return "Value not found";
+
+    if (this.at(index).value === searchValue) return index;
+    return this.find(searchValue, ++index);
+  }
+
   toString(node = this.listHead) {
     if (node.nextNode === null) {
       return `( ${node.value} ) -> null`;
@@ -86,6 +109,7 @@ export class LinkedList {
     return `( ${node.value} )`.concat(` -> ${this.toString(node.nextNode)}`);
   }
 
+  //finds and returns node
   search(node = this.listHead, searchProp, searchVal) {
     if (node[searchProp] === searchVal) return node;
     return this.search(node.nextNode, searchProp, searchVal);
@@ -103,19 +127,29 @@ list.append("snake");
 list.append("turtle");
 list.prepend("prependNode");
 
-// console.log(list.head());
-// console.log(list.tail());
-console.log("toString =====================");
+console.log("===================== head =====================");
+console.log(list.head());
+console.log("===================== tail =====================");
+console.log(list.tail());
+console.log("===================== toString =====================");
 console.log(list.toString());
-console.log("size =====================");
+console.log("===================== size =====================");
 console.log(list.size());
-console.log("at =====================");
-console.log(list.at(-2));
-console.log("pop =====================");
+console.log("===================== at =====================");
+console.log("6");
+console.log(list.at(6));
+console.log("7");
+console.log(list.at(7));
+console.log("===================== pop =====================");
 list.pop();
 console.log(list.toString());
-console.log("contains =====================");
+console.log("===================== contains =====================");
 console.log("cat");
 console.log(list.contains("cat"));
 console.log("cats");
 console.log(list.contains("cats"));
+console.log("===================== find =====================");
+console.log("parrot");
+console.log(list.find("parrot"));
+console.log("parrots");
+console.log(list.find("parrots"));
