@@ -109,6 +109,22 @@ export class LinkedList {
     return `( ${node.value} )`.concat(` -> ${this.toString(node.nextNode)}`);
   }
 
+  insertAt(value, index) {
+    const newNode = Node(value);
+    const leftNode = this.at(index - 1);
+    const newRightNode = this.at(index);
+
+    leftNode.nextNode = newNode;
+    newNode.nextNode = newRightNode;
+  }
+
+  removeAt(index) {
+    const leftNode = this.at(index - 1);
+    const rightNode = this.at(index + 1);
+
+    leftNode.nextNode = rightNode;
+  }
+
   //finds and returns node
   search(node = this.listHead, searchProp, searchVal) {
     if (node[searchProp] === searchVal) return node;
@@ -153,3 +169,11 @@ console.log("parrot");
 console.log(list.find("parrot"));
 console.log("parrots");
 console.log(list.find("parrots"));
+console.log("===================== insertAt =====================");
+console.log("zebra at 2");
+list.insertAt("zebra", 2);
+console.log(list.toString());
+console.log("===================== removeAt =====================");
+console.log("3 (cat)");
+list.removeAt(3);
+console.log(list.toString());
